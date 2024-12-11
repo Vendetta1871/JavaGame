@@ -71,8 +71,9 @@ public class JavaShader {
         glUniform1i(transformLoc, i);
     }
 
-    public void setUniformVector3f(Vector3f vec) {
-
+    public void setUniformVector3f(String name, Vector3f vec) {
+        int transformLoc = glGetUniformLocation(programId, name);
+        glUniform3f(transformLoc, vec.x, vec.y, vec.z);
     }
 
     public void setUniformMatrix4f(String name, Matrix4f vec) {
