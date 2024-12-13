@@ -1,5 +1,8 @@
 package org.example.system;
 
+import org.example.graphics.JavaRender;
+import org.example.scene.JavaScene;
+
 public class JavaEngine {
     public static final int TARGET_UPS = 30;
     private final JavaApp appLogic;

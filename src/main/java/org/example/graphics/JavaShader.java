@@ -1,4 +1,4 @@
-package org.example.system;
+package org.example.graphics;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

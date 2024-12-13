@@ -1,10 +1,9 @@
-package org.example.system;
+package org.example.graphics;
 
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,10 @@ public class JavaMesh {
     private List<Integer> vboIdList;
 
     public JavaMesh(float[] positions, float[] textCoords, float[] normals) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
+        int size = Float.BYTES * (positions.length + textCoords.length + normals.length);
+        try (MemoryStack stack = MemoryStack.create(size)) {
+            stack.push();
+
             numVertices = positions.length / 3;
             vboIdList = new ArrayList<>();
 
@@ -46,7 +48,7 @@ public class JavaMesh {
     private void bindJavaMeshArray(MemoryStack stack, int index, int size, float[] array) {
         int vboId = glGenBuffers();
         vboIdList.add(vboId);
-        FloatBuffer buffer = stack.callocFloat(array.length);
+        FloatBuffer buffer = stack.mallocFloat(array.length); // malloc or calloc ?
         buffer.put(0, array);
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);

@@ -1,4 +1,4 @@
-package org.example.system;
+package org.example.graphics;
 
 import org.lwjgl.system.MemoryStack;
 

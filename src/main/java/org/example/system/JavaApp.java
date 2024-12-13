@@ -1,5 +1,8 @@
 package org.example.system;
 
+import org.example.graphics.JavaRender;
+import org.example.scene.JavaScene;
+
 public interface JavaApp {
     void cleanup();
 

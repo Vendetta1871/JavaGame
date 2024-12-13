@@ -1,5 +1,7 @@
 package org.example.system;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,5 +19,13 @@ public class JavaUtils {
             e.printStackTrace();
         }
         return str.toString();
+    }
+
+    public static float[] toPrimitive(@NotNull Float[] array) {
+        float[] result = new float[array.length];
+        for (int i = 0; i < array.length; ++i) {
+            result[i] = array[i];
+        }
+        return result;
     }
 }

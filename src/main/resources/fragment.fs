@@ -5,10 +5,10 @@ in float outLight;
 
 out vec4 fragColor;
 
-uniform sampler2D texture_sampler;
+uniform sampler2D textureSampler;
 
 void main()
 {
-    vec4 color = texture(texture_sampler, outTexCoord);
+    vec4 color = texture(textureSampler, outTexCoord);
     fragColor = vec4(outLight * color.xyz, color.w);
 }

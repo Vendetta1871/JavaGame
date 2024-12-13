@@ -1,4 +1,4 @@
-package org.example.system;
+package org.example.scene;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -54,7 +54,7 @@ public class JavaCamera {
 
     public static JavaCamera Get() {
         if (_camera == null) {
-            _camera = new JavaCamera(new Vector3f(0.0f, 0.0f, 2.0f),
+            _camera = new JavaCamera(new Vector3f(0.0f, 150.0f, 0.0f),
                     (float)Math.toRadians(70), 1920, 1080);
         }
         return _camera;

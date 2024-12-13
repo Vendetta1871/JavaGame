@@ -1,5 +1,6 @@
 package org.example.system;
 
+import org.example.scene.JavaCamera;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import java.util.concurrent.Callable;
@@ -104,29 +105,34 @@ public class JavaWindow {
         return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
     }
 
+    private static float _speed(boolean shift) {
+        return shift ? 0.5f : 0.1f;
+    }
+
     public void keyCallBack(int key, int action) {
         if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
             glfwSetWindowShouldClose(windowHandle, true); // We will detect this in the rendering loop
         }
 
         //TODO: keyboard input handle
+        float s = _speed(isKeyPressed(GLFW_KEY_LEFT_SHIFT));
         if (isKeyPressed(GLFW_KEY_W)) {
-            JavaCamera.Get().Move(0.01f, 0, 0);
+            JavaCamera.Get().Move(s, 0, 0);
         }
         if (isKeyPressed(GLFW_KEY_S)) {
-            JavaCamera.Get().Move(-0.01f, 0, 0);
+            JavaCamera.Get().Move(-s, 0, 0);
         }
         if (isKeyPressed(GLFW_KEY_A)) {
-            JavaCamera.Get().Move(0f, 0, -0.01f);
+            JavaCamera.Get().Move(0f, 0, -s);
         }
         if (isKeyPressed(GLFW_KEY_D)) {
-            JavaCamera.Get().Move(0f, 0, 0.01f);
+            JavaCamera.Get().Move(0f, 0, s);
         }
         if (isKeyPressed(GLFW_KEY_SPACE)) {
-            JavaCamera.Get().Move(0, 0.01f, 0);
+            JavaCamera.Get().Move(0, s, 0);
         }
         if (isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-            JavaCamera.Get().Move(0, -0.01f, 0);
+            JavaCamera.Get().Move(0, -s, 0);
         }
     }
 

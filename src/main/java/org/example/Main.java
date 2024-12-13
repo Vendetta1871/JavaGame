@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.graphics.JavaRender;
+import org.example.scene.JavaScene;
 import org.example.system.*;
 
 public class Main implements JavaApp {
@@ -19,6 +21,7 @@ public class Main implements JavaApp {
     public void init(JavaWindow window, JavaScene scene, JavaRender render) {
         try {
             render.init();
+            scene.init();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unable to init render");
