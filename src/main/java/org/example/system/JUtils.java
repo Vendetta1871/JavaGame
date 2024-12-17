@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class JavaUtils {
+public class JUtils {
     public static String loadResource(String path) {
         String line;
         StringBuilder str = new StringBuilder();

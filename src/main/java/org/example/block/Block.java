@@ -19,4 +19,18 @@ public class Block {
         }
         return null;
     }
+
+    public enum BLOCK {
+        SOLID,
+        CUSTOM,
+        TRANSPARENT
+    }
+
+    public BLOCK getTransparency() {
+        return switch (this.BlockType) {
+            case 0 -> BLOCK.TRANSPARENT;
+            case -1 -> BLOCK.CUSTOM;
+            default -> BLOCK.SOLID;
+        };
+    }
 }

@@ -1,28 +1,28 @@
 package org.example.system;
 
-import org.example.graphics.JavaRender;
-import org.example.scene.JavaScene;
+import org.example.graphics.JRender;
+import org.example.scene.JScene;
 
-public class JavaEngine {
+public class JEngine {
     public static final int TARGET_UPS = 30;
-    private final JavaApp appLogic;
-    private final JavaWindow window;
-    private JavaRender render;
+    private final IJApp appLogic;
+    private final JWindow window;
+    private JRender render;
     private boolean running;
-    private JavaScene scene;
+    private JScene scene;
     private int targetFps;
     private int targetUps;
 
-    public JavaEngine(String windowTitle, JavaWindow.WindowOptions opts, JavaApp appLogic) {
-        window = new JavaWindow(windowTitle, opts, () -> {
+    public JEngine(String windowTitle, JWindow.WindowOptions opts, IJApp appLogic) {
+        window = new JWindow(windowTitle, opts, () -> {
             resize();
             return null;
         });
         targetFps = opts.fps;
         targetUps = opts.ups;
         this.appLogic = appLogic;
-        render = new JavaRender();
-        scene = new JavaScene();
+        render = new JRender();
+        scene = new JScene();
         appLogic.init(window, scene, render);
         running = true;
     }

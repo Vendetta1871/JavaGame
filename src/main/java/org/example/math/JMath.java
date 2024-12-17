@@ -2,7 +2,7 @@ package org.example.math;
 
 import org.joml.Vector3i;
 
-public class JavaMath {
+public class JMath {
     public static double distance(int ax, int ay, int az, int bx, int by, int bz) {
         double dx = ax - bx;
         double dy = ay - by;

@@ -33,6 +33,21 @@ public class Chunk {
         return new Vector3i(x, y, z);
     }
 
+    private static float getHeight(float fx, float fy) {
+        fx /= 100f;
+        fy /= 100f;
+        float h = noise.noise(fx, fy, 8, 0.5f);
+        h += noise.noise(fx, fy - 0.01f, 8, 0.5f);
+        h += noise.noise(fx, fy + 0.01f, 8, 0.5f);
+        h += noise.noise(fx- 0.01f, fy, 8, 0.5f);
+        h += noise.noise(fx + 0.01f, fy, 8, 0.5f);
+        h += noise.noise(fx - 0.01f, fy + 0.01f, 8, 0.5f);
+        h += noise.noise(fx + 0.01f, fy - 0.01f, 8, 0.5f);
+        h += noise.noise(fx - 0.01f, fy - 0.01f, 8, 0.5f);
+        h += noise.noise(fx + 0.01f, fy + 0.01f, 8, 0.5f);
+        return (h / 9f * 128f + 128f) / (float)Math.sqrt(2d);
+    }
+
     public static Chunk Generate(Vector3i pos) {
         // TODO: fix bug with chunk edges
         long startTime = System.nanoTime();
@@ -40,12 +55,12 @@ public class Chunk {
         Chunk chunk = new Chunk(pos);
         for (int i = 0; i < 16; ++i) {
             for (int j = 0; j < 16; ++j) {
-                float fx = (i + pos.x) / 100f;
-                float fy = (j + pos.z) / 100f;
-                float y = (float)noise.noise(fx, fy/*, 8, 0.5f*/) * 128 + 128;
-                y /= (float)Math.sqrt(2);
-                for (int k = 0; k < y; ++k) {
+                float h = getHeight(i + pos.x, j + pos.z);
+                for (int k = 0; k < h; ++k) {
                     chunk.Blocks[Chunk.Pos2Index(i, k, j)] = new Block((short) 2);
+                }
+                for (int k = (int)h; k < 64; ++k) {
+                    chunk.Blocks[Chunk.Pos2Index(i, k, j)] = new Block((short) -1);
                 }
             }
         }

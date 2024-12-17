@@ -4,7 +4,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-public class JavaCamera {
+public class JCamera {
     private Vector3f Up;
     private Vector3f Front;
     private Vector3f Right;
@@ -39,9 +39,9 @@ public class JavaCamera {
         return new Vector3f(Up);
     }
 
-    private static JavaCamera _camera;
+    private static JCamera _camera;
 
-    public JavaCamera(Vector3f pos, float fov, float width, float height) {
+    public JCamera(Vector3f pos, float fov, float width, float height) {
         this.Position = pos;
         this.fov = fov;
         this.width = width;
@@ -52,9 +52,9 @@ public class JavaCamera {
         _camera = this;
     }
 
-    public static JavaCamera Get() {
+    public static JCamera Get() {
         if (_camera == null) {
-            _camera = new JavaCamera(new Vector3f(0.0f, 150.0f, 0.0f),
+            _camera = new JCamera(new Vector3f(0.0f, 150.0f, 0.0f),
                     (float)Math.toRadians(70), 1920, 1080);
         }
         return _camera;

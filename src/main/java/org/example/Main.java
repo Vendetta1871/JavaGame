@@ -1,14 +1,14 @@
 package org.example;
 
-import org.example.graphics.JavaRender;
-import org.example.scene.JavaScene;
+import org.example.graphics.JRender;
+import org.example.scene.JScene;
 import org.example.system.*;
 
-public class Main implements JavaApp {
+public class Main implements IJApp {
 
     public static void main(String[] args) {
         Main main = new Main();
-        JavaEngine gameEng = new JavaEngine("Tianlong ", new JavaWindow.WindowOptions(), main);
+        JEngine gameEng = new JEngine("Tianlong ", new JWindow.WindowOptions(), main);
         gameEng.start();
     }
 
@@ -18,10 +18,10 @@ public class Main implements JavaApp {
     }
 
     @Override
-    public void init(JavaWindow window, JavaScene scene, JavaRender render) {
+    public void init(JWindow window, JScene scene, JRender render) {
         try {
             render.init();
-            scene.init();
+            scene.init(window.getWidth(), window.getHeight());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unable to init render");
@@ -29,12 +29,12 @@ public class Main implements JavaApp {
     }
 
     @Override
-    public void input(JavaWindow window, JavaScene scene, long diffTimeMillis) {
+    public void input(JWindow window, JScene scene, long diffTimeMillis) {
         // Nothing to be done yet
     }
 
     @Override
-    public void update(JavaWindow window, JavaScene scene, long diffTimeMillis) {
+    public void update(JWindow window, JScene scene, long diffTimeMillis) {
         // Nothing to be done yet
     }
 }

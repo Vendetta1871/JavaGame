@@ -1,5 +1,6 @@
 package org.example.graphics;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryStack;
 
@@ -10,15 +11,12 @@ import java.util.List;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
 
-public class JavaMesh {
+public class JMesh {
     private int numVertices;
     private int vaoId;
     private List<Integer> vboIdList;
 
-    public JavaMesh(float[] positions, float[] textCoords, float[] normals) {
-        int size = Float.BYTES * (positions.length + textCoords.length + normals.length);
-        try (MemoryStack stack = MemoryStack.create(size)) {
-            stack.push();
+    public JMesh(float[] positions, float[] textCoords, float[] normals) {
 
             numVertices = positions.length / 3;
             vboIdList = new ArrayList<>();
@@ -26,9 +24,9 @@ public class JavaMesh {
             vaoId = glGenVertexArrays();
             glBindVertexArray(vaoId);
 
-            bindJavaMeshArray(stack, 0, 3, positions);
-            bindJavaMeshArray(stack, 1, 2, textCoords);
-            bindJavaMeshArray(stack, 2, 3, normals);
+            bindJavaMeshArray(0, 3, positions);
+            bindJavaMeshArray(1, 2, textCoords);
+            bindJavaMeshArray(2, 3, normals);
 
             /*
             // Index VBO
@@ -42,14 +40,13 @@ public class JavaMesh {
 
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
-        }
     }
 
-    private void bindJavaMeshArray(MemoryStack stack, int index, int size, float[] array) {
+    private void bindJavaMeshArray(int index, int size, float[] array) {
         int vboId = glGenBuffers();
         vboIdList.add(vboId);
-        FloatBuffer buffer = stack.mallocFloat(array.length); // malloc or calloc ?
-        buffer.put(0, array);
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(array.length); // malloc or calloc ?
+        buffer.put(array).flip();
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
         glEnableVertexAttribArray(index);

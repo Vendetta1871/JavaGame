@@ -130,6 +130,24 @@ public class PerlinNoise {
         );
     }
 
+    public float noise(float x, float y, int octaves, float persistence)
+    {
+        float amplitude = 1;
+        float max = 0;
+        float result = 0;
+
+        while (octaves-- > 0)
+        {
+            max += amplitude;
+            result += (float) (noise(x, y) * amplitude);
+            amplitude *= persistence;
+            x *= 2;
+            y *= 2;
+        }
+
+        return result/max;
+    }
+
     private double fade(double t) {
         return t * t * t * (t * (t * 6 - 15) + 10);
     }

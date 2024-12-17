@@ -1,4 +1,4 @@
 package org.example.system;
 
-public class JavaEvents {
+public class JEvents {
 }

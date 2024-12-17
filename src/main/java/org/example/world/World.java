@@ -4,7 +4,6 @@ import org.example.block.Block;
 import org.joml.Vector3i;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class World {
     public Map<Vector3i, Chunk> chunks;
@@ -13,14 +12,6 @@ public class World {
 
     private World() {
         chunks = new HashMap<>();
-        /*
-        for (int i = 0; i < 8; ++i) {
-            for (int j = 0; j < 8; ++j) {
-                Vector3i pos = new Vector3i(i * 16, 0, j * 16);
-                chunks.put(pos, Chunk.Generate(pos));
-            }
-        }
-         */
     }
 
     public static World Get() {
@@ -54,26 +45,13 @@ public class World {
     private static final int loadDistance = 12;
 
     public void PopChunks(int x, int z) {
-        // TODO: fix that
-        /*
-        List<Vector3i> delete = new ArrayList<>();
-        //chunks.replaceAll();
-        chunks.forEach((Vector3i v, Chunk c) -> {
-            int dx = v.x / 16 - (int)Math.floor(x / 16f);
-            int dz = v.z / 16 - (int)Math.floor(z / 16f);
-            if (Math.abs(dx) > loadDistance || Math.abs(dz) > loadDistance) {
-                delete.add(v);
-            }
-        });
-        for (Vector3i v : delete) chunks.remove(v);
-        */
-
-        chunks = chunks.entrySet().stream().filter(entry -> {
+        // TODO: unload chunks to memory
+        chunks.entrySet().removeIf(entry -> {
             Vector3i v = entry.getKey();
             int dx = v.x / 16 - (int) Math.floor(x / 16f);
             int dz = v.z / 16 - (int) Math.floor(z / 16f);
-            return Math.abs(dx) <= loadDistance && Math.abs(dz) <= loadDistance;
-        }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            return Math.abs(dx) > loadDistance || Math.abs(dz) > loadDistance;
+        });
 
     }
 
@@ -91,12 +69,11 @@ public class World {
         if (blockX < 0) blockX = 15 + blockX;
         if (blockZ < 0) blockZ = 15 + blockZ;
 
-        Chunk chunk = chunks.get(getChunkCoord(x, y, z));
-        if (chunk != null) {
-            return chunk.Blocks[Chunk.Pos2Index(blockX, y, blockZ)];
+        try {
+            return chunks.get(getChunkCoord(x, y, z)).Blocks[Chunk.Pos2Index(blockX, y, blockZ)];
+        } catch (Exception e) {
+            return null;
         }
-
-        return null;
     }
 
     public boolean IsBlockAir(int x, int y, int z) {
