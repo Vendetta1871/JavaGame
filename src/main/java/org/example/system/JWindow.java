@@ -1,5 +1,6 @@
 package org.example.system;
 
+import org.example.scene.JCamera;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import java.util.concurrent.Callable;
@@ -9,14 +10,14 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class JavaWindow {
+public class JWindow {
 
     private final long windowHandle;
     private int height;
     private Callable<Void> resizeFunc;
     private int width;
 
-    public JavaWindow(String title, WindowOptions opts, Callable<Void> resizeFunc) {
+    public JWindow(String title, WindowOptions opts, Callable<Void> resizeFunc) {
         this.resizeFunc = resizeFunc;
         if (!glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
@@ -27,7 +28,7 @@ public class JavaWindow {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         if (opts.compatibleProfile) {
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
         } else {
@@ -78,8 +79,8 @@ public class JavaWindow {
         width = arrWidth[0];
         height = arrHeight[0];
 
-        JavaCamera.Get().width = width;
-        JavaCamera.Get().height = height;
+        JCamera.Get().width = width;
+        JCamera.Get().height = height;
     }
 
     public void cleanup() {
@@ -104,29 +105,34 @@ public class JavaWindow {
         return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
     }
 
+    private static float _speed(boolean shift) {
+        return shift ? 0.5f : 0.1f;
+    }
+
     public void keyCallBack(int key, int action) {
         if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
             glfwSetWindowShouldClose(windowHandle, true); // We will detect this in the rendering loop
         }
 
         //TODO: keyboard input handle
+        float s = _speed(isKeyPressed(GLFW_KEY_LEFT_SHIFT));
         if (isKeyPressed(GLFW_KEY_W)) {
-            JavaCamera.Get().Move(0.01f, 0, 0);
+            JCamera.Get().Move(s, 0, 0);
         }
         if (isKeyPressed(GLFW_KEY_S)) {
-            JavaCamera.Get().Move(-0.01f, 0, 0);
+            JCamera.Get().Move(-s, 0, 0);
         }
         if (isKeyPressed(GLFW_KEY_A)) {
-            JavaCamera.Get().Move(0f, 0, -0.01f);
+            JCamera.Get().Move(0f, 0, -s);
         }
         if (isKeyPressed(GLFW_KEY_D)) {
-            JavaCamera.Get().Move(0f, 0, 0.01f);
+            JCamera.Get().Move(0f, 0, s);
         }
         if (isKeyPressed(GLFW_KEY_SPACE)) {
-            JavaCamera.Get().Move(0, 0.01f, 0);
+            JCamera.Get().Move(0, s, 0);
         }
         if (isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-            JavaCamera.Get().Move(0, -0.01f, 0);
+            JCamera.Get().Move(0, -s, 0);
         }
     }
 
@@ -138,7 +144,7 @@ public class JavaWindow {
         {
             DeltaX = xpos - width / 2f;
             DeltaY = ypos - height / 2f;
-            JavaCamera.Get().Rotate(-DeltaX / width * 2, -DeltaY / height * 2);
+            JCamera.Get().Rotate(-DeltaX / width * 2, -DeltaY / height * 2);
         }
         else
         {
@@ -175,7 +181,7 @@ public class JavaWindow {
         public boolean compatibleProfile;
         public int fps;
         public int height;
-        public int ups = JavaEngine.TARGET_UPS;
+        public int ups = JEngine.TARGET_UPS;
         public int width;
     }
 }

@@ -1,11 +1,11 @@
-package org.example.system;
+package org.example.graphics;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import static org.lwjgl.opengl.GL30.*;
 
-public class JavaShader {
+public class JShader {
 
     private final int programId;
 
@@ -13,11 +13,17 @@ public class JavaShader {
 
     private int fragmentShaderId;
 
-    public JavaShader() throws Exception {
+    public JShader() throws Exception {
         programId = glCreateProgram();
         if (programId == 0) {
             throw new Exception("Could not create Shader");
         }
+    }
+
+    public JShader(String vertexCode, String fragmentCode) throws Exception {
+        this();
+        createVertexShader(vertexCode);
+        createFragmentShader(fragmentCode);
     }
 
     public void createVertexShader(String shaderCode) throws Exception {

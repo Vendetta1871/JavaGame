@@ -1,4 +1,4 @@
-package org.example.system;
+package org.example.graphics;
 
 import org.lwjgl.system.MemoryStack;
 
@@ -9,10 +9,10 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
 
-public class JavaTexture {
+public class JTexture {
     public int textureId;
 
-    public JavaTexture(String path) {
+    public JTexture(String path) {
         path = "./src/main/resources/" + path;
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
